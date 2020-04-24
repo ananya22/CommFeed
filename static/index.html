@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Community Kitchen</title>
+    <meta charset="UTF-8">
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <!-- Bootstrap -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.messagestore.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.fallbacks.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.language.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.parser.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.emitter.js"></script>
+    <script src="js/lib/jquery.i18n/jquery.i18n.emitter.bidi.js"></script>
+    <script src="antixss.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
+
+
+    <style>
+            body {font-family: Arial;}
+            
+            /* Style the tab */
+            .tab {
+              overflow: hidden;
+              border: 1px solid #ccc;
+              background-color: #f1f1f1;
+            }
+            
+            /* Style the buttons inside the tab */
+            .tab button {
+              background-color: inherit;
+              float: left;
+              border: none;
+              outline: none;
+              cursor: pointer;
+              padding: 14px 16px;
+              transition: 0.3s;
+              font-size: 17px;
+            }
+            
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+              background-color: #ddd;
+            }
+            
+            /* Create an active/current tablink class */
+            .tab button.active {
+              background-color: #ccc;
+            }
+            
+            /* Style the tab content */
+            .tabcontent {
+              display: none;
+              padding: 6px 12px;
+              -webkit-animation: fadeEffect 1s;
+              animation: fadeEffect 1s;
+            }
+            
+            /* Fade in tabs */
+            @-webkit-keyframes fadeEffect {
+              from {opacity: 0;}
+              to {opacity: 1;}
+            }
+            
+            @keyframes fadeEffect {
+              from {opacity: 0;}
+              to {opacity: 1;}
+            }
+            /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
+       * {
+  box-sizing: border-box;
+}
+
+input[type=text], select, textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+}
+
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+#btn-export-excel {
+  position: relative;
+  width: 57px;
+  height: 78px;
+  background: #FFFFFF;
+  cursor: auto;
+}
+#btn-export-excel > a {
+  display: block;
+  height: 76px;
+  background-size: 45px 45px;
+  background-position: center 10px;
+  background-repeat: no-repeat;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 11px;
+  color: #333333;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  font-weight: normal;
+  text-shadow: none;
+	background-image: url(https://www.flexmonster.com/flexmonster/toolbar/img/toolbar/menu_xls_large.png);
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) { 
+	#btn-export-excel > a {
+		background-image: url(https://www.flexmonster.com/flexmonster/toolbar/img/toolbar/menu_xls_large@2x.png);
+	}
+}
+
+#btn-export-excel > a > span {
+  position: absolute;
+  top: 52px;
+  line-height: 10px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+            </style>
+
+    <script>
+        $( document ).ready(function() {
+            $.i18n().load( {
+                en: {
+                    "welcome": "Welcome.",
+                    "name": "name",
+                    "what_is_your_name": "What is your name?",
+                    "hello": "Hello $1",
+                    "added_to_database": "Hello $1, I've added you to the database! for $2",
+                    "database_contents": "Database contents: "
+                },
+                ja: {
+                    "welcome": "ようこそ。",
+                    "name": "名前",
+                    "what_is_your_name": "お名前を教えてください。",
+                    "hello": "こんにちは $1",
+                    "added_to_database": "こんにちは $1 さん、あなたをデータベースに追加しました。",
+                    "database_contents": "データベースの内容: "
+                }
+            } );
+            $('body').i18n();
+            $('#type1').attr("placeholder", $.i18n('type') );
+            $('#quantity').attr("placeholder", $.i18n('quantity') );
+            $('#name').attr("placeholder", $.i18n('name') );
+            $('#email').attr("placeholder", $.i18n('email') );
+            $('#phone').attr("placeholder", $.i18n('phone') );
+            $('#location').attr("placeholder", $.i18n('location') );
+        });
+        </script>
+
+</head>
+
+<body>
+    <!-- Navbar (sit on top) -->
+<div class="w3-top">
+        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+          <a href="#home" class="w3-bar-item w3-button"><img src="/logo.png" width="40" height="40"><b>Cognizant</b> CommFeed</a>
+          <!-- Float links to the right. Hide them on small screens -->
+          <div class="w3-right w3-hide-small">
+            <a href="#About" class="w3-bar-item w3-button">About</a>
+            <a href="#donate" class="w3-bar-item w3-button">Benificiary</a>
+            <a href="#collect" class="w3-bar-item w3-button">Organizer</a>
+            <a href="#map" class="w3-bar-item w3-button">Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Header -->
+      <header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+            
+        <img class="w3-image" src="/header_img.png" alt="Architecture" width="1500" height="800">
+        <div class="w3-display-middle w3-margin-top w3-center">
+                
+          <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b>Cognizant</b></span> <span class="w3-hide-small w3-text-light-grey">CommFeed</span></h1>
+          <h3 class="w3-large w3-text-white"><b>Feed Data to Feed Community</b> </h3>
+        </div>
+      </header>
+
+
+      <!-- Page content -->
+    <div class="w3-content w3-padding" style="max-width:1564px">
+        <!-- About Section -->
+  <div class="w3-container w3-padding-32" id="About">
+        <h2 class="w3-border-bottom w3-border-light-grey w3-padding-16">About Us</h2>
+        <div class="container">
+        <h3 class=" w3-border-light-grey w3-padding-16">Our Vision</h3>
+        <p>Amid current lockdown scenario, many under privileged people like migrant worker, daily wage laborers, street beggars are finding it hard to manage food which is very basic necessity to stay alive. In this time of adversity, many individuals/organization are running community kitchens to provide foods to the needy. However, due to lack of synchronization, the benefits are not reaching to some segments of population in need while there is food shortage /wastage across some communities.</p>
+        <p>We aim to bridge this demand and supply gap by crowdsourcing information of the people in need an provide proper alignment planning to the community kitchen within vicinity and across locations (in case there is food shortage/spillover).”</p>
+        </br>
+        <h3 class=" w3-border-light-grey w3-padding-16">How the application will work</h3>
+        <p>A Recipient, who is in need of food, resources, or other essentials, can locate suppliers/community kitchens near them by filling a form under “Recipient/Beneficiary” given on the website/app with his requirement</p>
+
+        <p>A Supplier can be a small business, a voluntary organization, an NGO, Gurudwara who can post the availability of resources, food or other essentials by filling out a brief form under “Supplier”.</p>
+        <p>The website will also display a map showing community kitchen locations as well as recipient address.</p>
+        </br>
+        <h3 class=" w3-border-light-grey w3-padding-16">Our Motto</h3>
+        <p>Helping more and more under privileged people to provide basic needs amid lockdown.</br>
+        Optimize the demand and supply for local needs in different areas.</br>
+        Matching requirements within the abilities of the suppliers to prevent shortage/wastage of food.</p>
+
+        </br>
+        <h3 class=" w3-border-light-grey w3-padding-16">Contact Us</h3>
+        <p>contact@commfeed.com</br>
+            +91-0123456789</br>
+            Noida, UP</p>
+        
+    </div>
+    </div>
+
+<!-- Donate Section -->
+  <div class="w3-container w3-padding-32" id="donate">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Beneficiary Details</h3>
+        
+        <div class="container" >
+                <h4 data-i18n="Kindly enter the below details if you/benificiary would require supply of food."> </h4> <!- Welcome ->
+                     
+                <form action="/action_page.php"> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Name</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="name" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Your Name" >
+                            </div>
+                    </div>  
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Location</label>
+                            </div>
+                            <div class="col-25">
+                              <input id="location" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Mention your location" >
+                            </div>
+                            <div class="col-25">
+                                <img src="/location.png" width="40" height="40" alt="Location"> 
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">No of people to serve</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="people" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Enter the number" >
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Contact No</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="phone" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Mobile No" >
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Email ID</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="type1" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Your email ID" >
+                            </div>
+                    </div>                
+                    <div class="row">
+                            <input type="submit" value="Submit">
+                    </div>
+                
+
+                <p id="response" class="lead text-center"></p>
+        
+                <p id="databaseNames" class="lead text-center"></p>
+            </div>
+      </div>
+
+
+<!-- Donate Section -->
+<div class="w3-container w3-padding-32" id="collect">
+        <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Organizer Details</h3>
+        
+        <div class="container" >
+                <h4 data-i18n="Kindly enter the below details if you would like to serve the community by donating food."> </h4> <!- Welcome ->
+                     
+                <form action="/action_page.php"> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Name/Organization</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="name" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Enter Your Name or Organization name" >
+                            </div>
+                    </div>  
+                    
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">No of people to serve</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="people" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Enter the number" >
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Prefered Time Slot</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="slot" type="datetime-local" aria-describedby="sizing-addon1" value="" placeholder="Mention your date and time">
+                            </div>                            
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Location</label>
+                            </div>
+                            <div class="col-25">
+                              <input id="location" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Mention your location" >
+                            </div>
+                            <div class="col-25">
+                                <img src="/location.png" width="40" height="40" alt="Location">
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Contact No</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="phone" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Mobile No" >
+                            </div>
+                    </div> 
+                    <div class="row">
+                            <div class="col-25">
+                              <label for="fname">Email ID</label>
+                            </div>
+                            <div class="col-75">
+                              <input id="type1" type="text"  aria-describedby="sizing-addon1" value="" placeholder="Your email ID" >
+                            </div>
+                    </div>                
+                    <div class="row">
+                            <input type="submit" value="Submit">
+                    </div>
+                
+
+                <p id="response" class="lead text-center"></p>
+        
+                <p id="databaseNames" class="lead text-center"></p>
+            </div>
+      </div>
+
+    <!-- Image of location/map -->
+    <div class="w3-container w3-padding-32" id="map">
+            <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16">Community Welfare Organizer</h3>
+            
+            <div class="container" >
+                    <div class="row">
+                            <div class="col-75">
+                                    <div class="my-info-1">
+                                            <div class="1 hide"><img src="/delhi.jpg" width="800" height="400"></div>
+                                            <div class="2 hide"><img src="/1.jpg" width="800" height="400"></div>
+                                            <div class="3 hide"><img src="/2.jpg" width="800" height="400"></div>
+                                            <div class="4 hide"><img src="/3.jpg" width="800" height="400"></div>
+                                          </div>
+                                    </div>
+                            <div class="col-25">
+                                    <select class="div-toggle" data-target=".my-info-1">
+                                            <option value="orange" data-show=".1">Delhi</option>
+                                            <option value="lemon" data-show=".2">Area 1</option>
+                                            <option value="apple" data-show=".3">Area 2</option>
+                                            <option value="pear" data-show=".4">Area 3</option>
+                                          </select>
+                                          <div class="my-info-1">
+                                                <div class="1 hide"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16"><br>Delhi <br>No. of Organizers: 44 <br>No. of Benificiary: 106 </h3></label></div>
+                                                <div class="2 hide"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16"><br>Area 1 <br>No. of Organizers: 12 <br>No. of Benificiary: 35 </h3></div>
+                                                <div class="3 hide"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16"><br>Area 2 <br>No. of Organizers: 7 <br>No. of Benificiary: 22 </h3></div>
+                                                <div class="4 hide"><h3 class="w3-border-bottom w3-border-light-grey w3-padding-16"><br>Area 3 <br>No. of Organizers: 25 <br>No. of Benificiary: 49 </h3></div>
+                                              </div>
+                                            </br>
+                                        </br>
+                                              <script src="https://cdn.flexmonster.com/flexmonster.js"></script>
+
+                                              <div id="btn-export-excel"><a onclick="exportHandler()" href="javascript:void(0)"><span>Download details in Excel</span></a></div>
+                                              <div id="pivot-container"></div>    
+                            </div>
+                    </div> 
+                    
+                    
+            </div>
+    </div>    
+
+        
+        
+</div>
+        
+          
+      
+    
+    <footer class="footer">
+        <div class="container">
+            <span><a href="contact@commfeed.com" target="_blank">contact@commfeed.com</a></span>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>
+<script>
+    $(document).on('change', '.div-toggle', function() {
+  var target = $(this).data('target');
+  var show = $("option:selected", this).data('show');
+  $(target).children().addClass('hide');
+  $(show).removeClass('hide');
+});
+$(document).ready(function(){
+	$('.div-toggle').trigger('change');
+});
+</script>
+
+
+
+<script>
+    	//Submit data when enter key is pressed
+        $('#location').keydown(function(e) {
+        	var type1 = $('#type1').val();
+            var quantity = $('#quantity').val();
+            var name = $('#name').val();
+            var phone = $('#phone').val();
+            var email = $('#email').val();
+            var location = $('#location').val();
+            if (e.which == 13 && name.length > 0) { //catch Enter key
+            	//POST request to API to create a new visitor entry in the database
+                $.ajax({
+				  method: "POST",
+				  url: "./api/visitors",
+				  contentType: "application/json",
+				  data: JSON.stringify({type1: type1,quantity: quantity, name: name, phone:phone, email: email, location: location })
+				})
+                .done(function(data) {
+                    if(data && data.name && data.email){
+                        if(data._id)
+                            $('#response').html($.i18n('added_to_database', AntiXSS.sanitizeInput(data.name),' ', AntiXSS.sanitizeInput(data.email)));
+                            
+                        else
+                            $('#response').html($.i18n('hello', AntiXSS.sanitizeInput(data.name), AntiXSS.sanitizeInput(data.email))); 
+                    }
+                    else {
+                        $('#response').html(AntiXSS.sanitizeInput(data));
+                    }
+                    $('#location').hide();
+                    getNames();
+                });
+            }
+        });
+
+        //Retrieve all the visitors from the database
+        function getNames(){
+          $.get("./api/visitors")
+              .done(function(data) {
+                  if(data.length > 0) {
+                    data.forEach(function(element, index) {
+                      data[index] = AntiXSS.sanitizeInput(element)
+                    });
+                    $('#databaseNames').html($.i18n('database_contents') + JSON.stringify(data));
+                  }
+              });
+          }
+
+          //Call getNames on page load.
+          getNames();
+
+          
+
+
+    </script>
