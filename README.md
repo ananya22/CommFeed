@@ -9,18 +9,18 @@ The following instructions are for deploying the application as a Cloud Foundry 
 You'll need the following:
 * [IBM Cloud account](https://console.ng.bluemix.net/registration/)
 * [Cloud Foundry CLI](https://github.com/cloudfoundry/cli#downloads)
-* [Git](https://git-scm.com/downloads)
+* [Git](https://github.com/ananya22/CommFeed)
 * [Python](https://www.python.org/downloads/)
 
 ## 1. Clone the sample app
 
 Now you're ready to start working with the app. Clone the repo and change to the directory where the sample app is located.
   ```
-git clone https://github.com/IBM-Cloud/get-started-python
-cd get-started-python
+git clone https://github.com/ananya22/CommFeed
+cd CommFeed
   ```
 
-  Peruse the files in the *get-started-python* directory to familiarize yourself with the contents.
+  Peruse the files in the *CommFeed* directory to familiarize yourself with the contents.
 
 ## 2. Run the app locally
 
